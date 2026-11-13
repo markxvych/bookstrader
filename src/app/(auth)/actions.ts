@@ -25,7 +25,7 @@ export async function register(form: FormData) {
     options: { data: { username } },
   });
   if (error) return;
-  redirect(data.session ? "/" : "/login");
+  redirect(data.session ? "/me/books" : "/login");
 }
 
 export async function login(form: FormData) {
@@ -38,7 +38,7 @@ export async function login(form: FormData) {
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return;
-  redirect("/");
+  redirect("/me/books");
 }
 
 export async function logout() {

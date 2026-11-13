@@ -10,9 +10,17 @@ async function Welcome() {
 
   if (session) {
     return (
-      <p className="text-sm text-muted-foreground">
-        Вітаємо, {session.profile?.name ?? session.user.email}!
-      </p>
+      <div className="flex flex-wrap gap-2">
+        <Link href="/books" className={buttonVariants()}>
+          Усі книги
+        </Link>
+        <Link
+          href="/me/books"
+          className={buttonVariants({ variant: "outline" })}
+        >
+          Мої книги
+        </Link>
+      </div>
     );
   }
 
