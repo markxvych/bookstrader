@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
-import { ArrowDownUp, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import BookActions from "@/components/BookActions";
 import BookCard from "@/components/BookCard";
 import Notice from "@/components/Notice";
 import { requireUser } from "@/lib/auth";
 import { prepareBookCovers, type Book } from "@/lib/books";
 import { pageNumber } from "@/lib/forms";
+import CatalogFilters from "./CatalogFilters";
 
 export const metadata: Metadata = {
   title: "Усі книги",
@@ -54,52 +53,7 @@ async function BooksCatalog({ searchParams }: { searchParams: SearchParams }) {
       <p className="mt-1 text-sm text-muted-foreground">
         Знайдіть свою наступну історію.
       </p>
-      <form
-        action="/books"
-        className="mt-5 grid items-end gap-3 sm:grid-cols-[minmax(0,1.6fr)_minmax(11rem,1fr)_auto]"
-      >
-        <div className="relative">
-          <Label className="sr-only" htmlFor="catalog-search">
-            Пошук за назвою або автором
-          </Label>
-          <Search
-            className="pointer-events-none absolute top-3 left-3 size-4 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            id="catalog-search"
-            name="q"
-            type="search"
-            defaultValue={search}
-            maxLength={200}
-            placeholder="Пошук за назвою або автором"
-            className="h-10 pl-9"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="catalog-sort" className="text-muted-foreground">
-            Сортування
-          </Label>
-          <div className="relative">
-            <ArrowDownUp
-              className="pointer-events-none absolute top-3 left-3 size-4"
-              aria-hidden="true"
-            />
-            <select
-              id="catalog-sort"
-              name="sort"
-              defaultValue={sort}
-              className="h-10 w-full border border-transparent border-b-input bg-background pr-3 pl-9 text-sm focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <option value="asc">За назвою: А–Я</option>
-              <option value="desc">За назвою: Я–А</option>
-            </select>
-          </div>
-        </div>
-        <Button type="submit" variant="outline" className="h-10">
-          Знайти
-        </Button>
-      </form>
+      <CatalogFilters search={search} sort={sort} />
       {books.length ? (
         <>
           <p className="mt-6 mb-3 text-sm text-muted-foreground">
