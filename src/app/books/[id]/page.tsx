@@ -35,6 +35,13 @@ async function BookDetails({ params }: { params: BookParams }) {
   const ownerName = isOwner
     ? profile?.name
     : (await supabase.rpc("book_owner_name", { book_id: id })).data;
+  const myBooks = isOwner
+    ? null
+    : await supabase
+        .from("books")
+        .select("id, name, author")
+        .eq("owner_id", user.id)
+        .order("name");
   const [book] = await prepareBookCovers(supabase, [data]);
 
   return (
@@ -77,8 +84,14 @@ async function BookDetails({ params }: { params: BookParams }) {
             >
               Керувати книгою
             </Link>
+          ) : myBooks?.error ? (
+            <Notice error="Не вдалося завантажити ваші книги." />
           ) : (
-            <ExchangeForm key={book.id} bookId={book.id} />
+            <ExchangeForm
+              key={book.id}
+              bookId={book.id}
+              myBooks={myBooks?.data ?? []}
+            />
           )}
         </div>
       </article>

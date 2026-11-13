@@ -9,6 +9,7 @@ import Notice from "@/components/Notice";
 import { requireUser } from "@/lib/auth";
 import { isImageUrl } from "@/lib/forms";
 import { changeEmail, saveProfile } from "./actions";
+import ExchangeResponse from "./ExchangeResponse";
 
 async function Profile() {
   const { supabase, user, profile } = await requireUser();
@@ -29,7 +30,9 @@ async function Profile() {
       .eq("owner_id", user.id),
     supabase
       .from("exchange_notifications")
-      .select("id, book_id, book_name, sender_name, created_at")
+      .select(
+        "id, book_id, book_name, sender_name, created_at, offered_book_name, status",
+      )
       .eq("recipient_id", user.id)
       .order("created_at", { ascending: false }),
   ]);
@@ -144,7 +147,12 @@ async function Profile() {
                   className="py-3 wrap-break-word first:pt-0 last:pb-0"
                   key={item.id}
                 >
-                  <strong>{item.sender_name}</strong> пропонує обмін на{" "}
+                  <strong>{item.sender_name}</strong>{" "}
+                  {item.offered_book_name ? (
+                    <>пропонує «{item.offered_book_name}» за </>
+                  ) : (
+                    <>запитував обмін на </>
+                  )}
                   {item.book_id ? (
                     <Link
                       className="font-medium underline underline-offset-4"
@@ -161,6 +169,19 @@ async function Profile() {
                   >
                     {new Date(item.created_at).toLocaleDateString("uk-UA")}
                   </time>
+                  {item.status === "pending" && item.offered_book_name && (
+                    <ExchangeResponse requestId={item.id} />
+                  )}
+                  {item.status === "accepted" && (
+                    <p className="mt-2 text-muted-foreground">
+                      Обмін завершено.
+                    </p>
+                  )}
+                  {item.status === "declined" && (
+                    <p className="mt-2 text-muted-foreground">
+                      Запит відхилено.
+                    </p>
+                  )}
                 </li>
               ))}
             </ul>

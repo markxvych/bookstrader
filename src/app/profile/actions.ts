@@ -1,8 +1,9 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
-import { isImageUrl, text } from "@/lib/forms";
+import { isImageUrl, isUuid, text } from "@/lib/forms";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function saveProfile(form: FormData) {
@@ -44,4 +45,38 @@ export async function changeEmail(form: FormData) {
   });
   if (error) return;
   redirect("/profile");
+}
+
+export async function respondToExchange(
+  requestId: string,
+  _previous: { error?: string },
+  form: FormData,
+): Promise<{ error?: string }> {
+  const { user } = await requireUser();
+  const decision = text(form, "decision");
+  const failure = { error: "Сталася помилка." };
+  if (
+    !isUuid(requestId) ||
+    (decision !== "accept" && decision !== "decline") ||
+    !process.env.SUPABASE_SECRET_KEY
+  ) {
+    return failure;
+  }
+
+  const { data, error } = await createAdminClient().rpc(
+    "respond_to_book_swap",
+    {
+      recipient: user.id,
+      request_id: requestId,
+      accept_request: decision === "accept",
+    },
+  );
+  if (error || !data) return failure;
+
+  revalidatePath("/profile");
+  if (decision === "accept") {
+    revalidatePath("/me/books");
+    revalidatePath("/books/[id]", "page");
+  }
+  return {};
 }
