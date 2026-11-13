@@ -37,7 +37,7 @@ async function MyBooks() {
         books.length ? (
           <button
             type="button"
-            className="flex min-h-52 flex-col items-center justify-center gap-2 rounded-md border border-dashed bg-muted/40 px-2 text-sm text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex flex-col items-center justify-center gap-2 rounded-md border border-dashed bg-muted/40 px-2 text-sm text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Plus aria-hidden="true" className="size-7" /> Додати книгу
           </button>
@@ -80,7 +80,7 @@ async function MyBooks() {
           Книг у колекції: {books.length}
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {books.map((book) => (
           <BookCard
             key={book.id}

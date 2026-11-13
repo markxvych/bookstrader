@@ -8,10 +8,9 @@ export default function NavLinks({ isAdmin }: { isAdmin: boolean }) {
   const links = [
     { href: "/books", label: "Усі книги" },
     { href: "/me/books", label: "Мої книги" },
-    { href: "/profile", label: "Профіль" },
   ];
 
-  if (isAdmin) links.push({ href: "/admin", label: "Адмінка" });
+  if (isAdmin) links.push({ href: "/admin", label: "Адмін Панель" });
 
   return (
     <nav
