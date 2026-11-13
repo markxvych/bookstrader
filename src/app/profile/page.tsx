@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Bell, BookOpen, UserRound } from "lucide-react";
@@ -10,6 +11,11 @@ import { requireUser } from "@/lib/auth";
 import { isImageUrl } from "@/lib/forms";
 import { changeEmail, saveProfile } from "./actions";
 import ExchangeResponse from "./ExchangeResponse";
+
+export const metadata: Metadata = {
+  title: "Профіль",
+  robots: { index: false, follow: false },
+};
 
 async function Profile() {
   const { supabase, user, profile } = await requireUser();

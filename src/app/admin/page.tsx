@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
@@ -12,6 +13,11 @@ import { pageNumber } from "@/lib/forms";
 import { createAdminClient } from "@/lib/supabase/admin";
 import AdminForm from "./AdminForm";
 import { createAccount, deleteAccount, updateAccount } from "./actions";
+
+export const metadata: Metadata = {
+  title: "Адмін Панель",
+  robots: { index: false, follow: false },
+};
 
 type AdminProps = { searchParams: Promise<{ page?: string }> };
 

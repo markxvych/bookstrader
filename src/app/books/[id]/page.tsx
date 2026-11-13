@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
@@ -10,6 +11,10 @@ import { prepareBookCovers } from "@/lib/books";
 import { isUuid } from "@/lib/forms";
 
 import ExchangeForm from "./ExchangeForm";
+
+export const metadata: Metadata = {
+  title: "Деталі книги",
+};
 
 type BookParams = Promise<{ id: string }>;
 

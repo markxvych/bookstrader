@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { ArrowDownUp, ChevronLeft, ChevronRight, Search } from "lucide-react";
@@ -10,6 +11,10 @@ import Notice from "@/components/Notice";
 import { requireUser } from "@/lib/auth";
 import { prepareBookCovers, type Book } from "@/lib/books";
 import { pageNumber } from "@/lib/forms";
+
+export const metadata: Metadata = {
+  title: "Усі книги",
+};
 
 async function BooksCatalog({ searchParams }: { searchParams: SearchParams }) {
   const { supabase, profile } = await requireUser();

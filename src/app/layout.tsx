@@ -18,8 +18,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Book Trader",
-  description: "Сервіс обміну книгами",
+  title: "Головна",
+  description: "Сервіс для обміну книгами",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

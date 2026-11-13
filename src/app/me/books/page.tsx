@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { BookOpen, Plus } from "lucide-react";
 import BookCard from "@/components/BookCard";
@@ -8,6 +9,11 @@ import { requireUser } from "@/lib/auth";
 import { prepareBookCovers } from "@/lib/books";
 import BookForm from "./BookForm";
 import BookActions from "@/components/BookActions";
+
+export const metadata: Metadata = {
+  title: "Мої книги",
+  robots: { index: false, follow: false },
+};
 
 async function MyBooks() {
   const { supabase, user } = await requireUser();
