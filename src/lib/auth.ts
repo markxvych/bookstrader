@@ -14,7 +14,7 @@ export async function currentUser() {
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("name, role")
+    .select("name, role, avatar_url")
     .eq("id", user.id)
     .maybeSingle();
   if (error) throw error;

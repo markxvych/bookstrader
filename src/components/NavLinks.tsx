@@ -8,6 +8,7 @@ export default function NavLinks() {
   const links = [
     { href: "/books", label: "Усі книги" },
     { href: "/me/books", label: "Мої книги" },
+    { href: "/profile", label: "Профіль" },
   ];
 
   return (

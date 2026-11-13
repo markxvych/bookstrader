@@ -8,6 +8,8 @@ import { requireUser } from "@/lib/auth";
 import { prepareBookCovers } from "@/lib/books";
 import { isUuid } from "@/lib/forms";
 
+import ExchangeForm from "./ExchangeForm";
+
 type BookParams = Promise<{ id: string }>;
 
 async function BookDetails({ params }: { params: BookParams }) {
@@ -68,13 +70,15 @@ async function BookDetails({ params }: { params: BookParams }) {
               </p>
             </div>
           )}
-          {isOwner && (
+          {isOwner ? (
             <Link
               href="/me/books"
               className="text-sm underline underline-offset-4"
             >
               Керувати книгою
             </Link>
+          ) : (
+            <ExchangeForm key={book.id} bookId={book.id} />
           )}
         </div>
       </article>
