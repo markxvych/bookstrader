@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { ArrowLeft, UserRound } from "lucide-react";
+import BookActions from "@/components/BookActions";
 import BookCover from "@/components/BookCover";
 import Notice from "@/components/Notice";
 import { requireUser } from "@/lib/auth";
@@ -77,21 +78,24 @@ async function BookDetails({ params }: { params: BookParams }) {
               </p>
             </div>
           )}
-          {isOwner ? (
-            <Link
-              href="/me/books"
-              className="text-sm underline underline-offset-4"
-            >
-              Керувати книгою
-            </Link>
-          ) : myBooks?.error ? (
-            <Notice error="Не вдалося завантажити ваші книги." />
-          ) : (
-            <ExchangeForm
-              key={book.id}
-              bookId={book.id}
-              myBooks={myBooks?.data ?? []}
-            />
+          {!isOwner &&
+            (myBooks?.error ? (
+              <Notice error="Не вдалося завантажити ваші книги." />
+            ) : (
+              <ExchangeForm
+                key={book.id}
+                bookId={book.id}
+                myBooks={myBooks?.data ?? []}
+              />
+            ))}
+          {(isOwner || profile?.role === "Admin") && (
+            <div className="flex flex-wrap gap-2">
+              <BookActions
+                book={book}
+                returnTo="details"
+                isAdmin={profile?.role === "Admin"}
+              />
+            </div>
           )}
         </div>
       </article>

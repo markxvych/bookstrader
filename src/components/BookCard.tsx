@@ -29,7 +29,7 @@ export default function BookCard({
         </p>
       </Link>
       {actions && (
-        <div className="absolute top-4 right-4 flex gap-1 pointer-fine:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100">
+        <div className="absolute top-4 right-4 flex gap-1 pointer-fine:pointer-events-none pointer-fine:opacity-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100">
           {actions}
         </div>
       )}

@@ -1,13 +1,13 @@
 import { Suspense } from "react";
-import { BookOpen, Pencil, Plus, Trash2 } from "lucide-react";
+import { BookOpen, Plus } from "lucide-react";
 import BookCard from "@/components/BookCard";
 import Notice from "@/components/Notice";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { requireUser } from "@/lib/auth";
 import { prepareBookCovers } from "@/lib/books";
 import BookForm from "./BookForm";
-import { deleteBook } from "./actions";
+import BookActions from "@/components/BookActions";
 
 async function MyBooks() {
   const { supabase, user } = await requireUser();
@@ -85,40 +85,7 @@ async function MyBooks() {
           <BookCard
             key={book.id}
             book={book}
-            actions={
-              <>
-                <Dialog
-                  key={`${book.name}:${book.author}:${book.photo_url}`}
-                  title="Редагувати книгу"
-                  trigger={
-                    <button
-                      type="button"
-                      className={buttonVariants({
-                        variant: "outline",
-                        size: "icon-sm",
-                      })}
-                      title="Редагувати"
-                      aria-label={`Редагувати «${book.name}»`}
-                    >
-                      <Pencil aria-hidden="true" />
-                    </button>
-                  }
-                >
-                  <BookForm book={book} />
-                </Dialog>
-                <form action={deleteBook.bind(null, book.id)}>
-                  <Button
-                    type="submit"
-                    variant="outline"
-                    size="icon-sm"
-                    title="Видалити"
-                    aria-label={`Видалити «${book.name}»`}
-                  >
-                    <Trash2 aria-hidden="true" />
-                  </Button>
-                </form>
-              </>
-            }
+            actions={<BookActions book={book} returnTo="collection" />}
           />
         ))}
         {addBook}

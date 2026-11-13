@@ -36,5 +36,6 @@ export const config = {
     "/books/:path*",
     "/me/books",
     "/profile",
+    "/admin",
   ],
 };

@@ -27,3 +27,9 @@ export async function requireUser() {
   if (!session) redirect("/login");
   return session;
 }
+
+export async function requireAdmin() {
+  const session = await requireUser();
+  if (session.profile?.role !== "Admin") redirect("/books");
+  return session;
+}

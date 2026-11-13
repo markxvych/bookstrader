@@ -4,6 +4,7 @@ import { ArrowDownUp, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import BookActions from "@/components/BookActions";
 import BookCard from "@/components/BookCard";
 import Notice from "@/components/Notice";
 import { requireUser } from "@/lib/auth";
@@ -11,7 +12,7 @@ import { prepareBookCovers, type Book } from "@/lib/books";
 import { pageNumber } from "@/lib/forms";
 
 async function BooksCatalog({ searchParams }: { searchParams: SearchParams }) {
-  const { supabase } = await requireUser();
+  const { supabase, profile } = await requireUser();
   const params = await searchParams;
   const search =
     typeof params.q === "string" ? params.q.trim().slice(0, 200) : "";
@@ -101,7 +102,15 @@ async function BooksCatalog({ searchParams }: { searchParams: SearchParams }) {
           </p>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {books.map((book) => (
-              <BookCard key={book.id} book={book} />
+              <BookCard
+                key={book.id}
+                book={book}
+                actions={
+                  profile?.role === "Admin" && (
+                    <BookActions book={book} returnTo="catalog" isAdmin />
+                  )
+                }
+              />
             ))}
           </div>
           <nav

@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function NavLinks() {
+export default function NavLinks({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
   const links = [
     { href: "/books", label: "Усі книги" },
     { href: "/me/books", label: "Мої книги" },
     { href: "/profile", label: "Профіль" },
   ];
+
+  if (isAdmin) links.push({ href: "/admin", label: "Адмінка" });
 
   return (
     <nav

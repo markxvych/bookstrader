@@ -7,11 +7,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { saveBook } from "./actions";
 
-export default function BookForm({ book }: { book?: Book }) {
+export default function BookForm({
+  book,
+  returnTo = "collection",
+}: {
+  book?: Book;
+  returnTo?: "collection" | "catalog" | "details";
+}) {
   const [source, setSource] = useState<"url" | "file">("url");
 
   return (
-    <form className="space-y-4" action={saveBook.bind(null, book?.id ?? null)}>
+    <form
+      className="space-y-4"
+      action={saveBook.bind(null, book?.id ?? null, returnTo)}
+    >
       <div className="space-y-2">
         <Label htmlFor="book-name">Назва книги</Label>
         <Input

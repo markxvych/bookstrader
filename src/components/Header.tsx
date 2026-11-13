@@ -19,7 +19,7 @@ export default async function Header() {
         </Link>
         {session ? (
           <>
-            <NavLinks />
+            <NavLinks isAdmin={session.profile?.role === "Admin"} />
             <form
               action={logout}
               className="ml-auto flex flex-wrap items-center gap-3"
